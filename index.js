@@ -78,8 +78,15 @@ async function run() {
       const page = parseInt(req.query.page) || 0;
       const limit = parseInt(req.query.limit) || 10;
       const skip = page * limit;
+
+      // Get the category from the query parameters
+      const category = req.query.category;
+
+      // Build the query object based on the category
+      const query = category ? { category: category } : {};
+
       const result = await toysAllCollection
-        .find()
+        .find(query)
         .sort({ createAt: -1 })
         .skip(skip)
         .limit(limit)
